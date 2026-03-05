@@ -55,6 +55,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .requestMatchers("/create/**").permitAll()
                     .requestMatchers("/admin/signup/**").permitAll()
+                    .requestMatchers("/api/v1/create/login/**").permitAll()
                     .requestMatchers("/create/department_user/**").permitAll()
                     .requestMatchers("/user/complaint/**").hasRole("USER")
                     .requestMatchers("/department_officer/Analysis/**").hasAnyRole("OFFICER", "ADMIN")
