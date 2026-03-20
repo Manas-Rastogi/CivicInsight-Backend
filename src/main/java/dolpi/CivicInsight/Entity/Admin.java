@@ -2,16 +2,15 @@ package dolpi.CivicInsight.Entity;
 
 import lombok.Data;
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.Setter;  
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.List;
 
-@Getter
-@Document(collection ="admin")
 @Data
+@Getter
+@Setter  
+@Document(collection = "admin")
 public class Admin {
     @Id
     private String id;
