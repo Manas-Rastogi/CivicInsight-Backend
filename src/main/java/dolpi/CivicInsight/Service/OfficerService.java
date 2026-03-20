@@ -32,6 +32,18 @@ public class OfficerService {
         user.setRoles(Arrays.asList("OFFICER"));
         officerRepo.save(user);
 
+        // Welcome email bhejo
+        emailService.sendEmail(
+            officerDTO.getEmail(),
+            "Welcome to CivicInsight!",
+            "<h2>Hello " + officerDTO.getName() + "!</h2>" +
+            "<p>Aapka officer account successfully create ho gaya hai.</p>" +
+            "<p><b>Department:</b> " + officerDTO.getDepartment() + "</p>" +
+            "<p><b>City:</b> " + officerDTO.getCity() + "</p>" +
+            "<p>CivicInsight Team</p>"
+        );
+
+        
         return "SuccesFully Create OFFICER";
     }
 }
