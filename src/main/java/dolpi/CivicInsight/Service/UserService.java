@@ -28,6 +28,18 @@ public class UserService {
         user.setRoles(Arrays.asList("USER"));
         userRepo.save(user);
 
+        // Welcome email bhejo
+        emailService.sendEmail(
+            userdto.getEmail(),
+            "Welcome to CivicInsight!",
+            "<h2>Hello " + userdto.getName() + "!</h2>" +
+            "<p>Aapka account successfully create ho gaya hai.</p>" +
+            "<p><b>Username:</b> " + userdto.getUsername() + "</p>" +
+            "<p>Ab aap CivicInsight use kar sakte hain.</p>" +
+            "<p>CivicInsight Team</p>"
+        );
+
+
         return "SuccesFully Create User";
     }
 }
