@@ -5,21 +5,17 @@ spring:
       database: civicinsight
   mail:
     host: smtp.gmail.com
-    port: 587
+    port: 465
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
           auth: true
-          starttls:
-            enable: true
-            required: true
-         
           ssl:
+            enable: true
             trust: smtp.gmail.com
-       
-        debug: true
-
-server:
-  port: ${PORT:8080}
+        
+          connectiontimeout: 10000
+          timeout: 10000
+          writetimeout: 10000
