@@ -24,8 +24,9 @@ public class Complaint {
 
     @PostMapping("/submit")
     public ResponseEntity<?> complaint(@RequestBody Complaints complaints,Authentication authentication){
-        String userId = authentication.getName(); 
-        complaints.setUserId(userId);
+        String username = authentication.getName(); 
+       UserEnity user = userRepo.findByUsername(username);
+       complaints.setUserId(user.getId());
       return new ResponseEntity<>(compliantService.sendcomplaint(complaints), HttpStatus.CREATED);
     }
 
