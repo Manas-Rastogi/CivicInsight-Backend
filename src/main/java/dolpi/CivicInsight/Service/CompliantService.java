@@ -47,30 +47,36 @@ public class CompliantService {
             complaints.getCity(), response.getAnalysis().getDepartment()
         );
 
-        if (listofofficer == null) throw new ResourcesNotFound("Officer Not Found");
+        if (listofofficer == null || listofofficer.isEmpty()) {
+            throw new ResourcesNotFound("Officer Not Found");
+        }
 
-        String OfficerName = "";
-        String DepartmentName = "";
+        String officerName = "";
+        String departmentName = "";
 
         for (OfficerEnty officer : listofofficer) {
             if (officer.getCountReport() < 5) {
-                OfficerName = officer.getName();
-                DepartmentName = officer.getDepartment();
 
+                // Step 1: Complaint fields set karo
                 complaints.setUrgency(response.getAnalysis().getUrgency());
                 complaints.setStatus("Pending");
                 complaints.setOfficerId(officer.getId());
                 complaints.setOfficerName(officer.getName());
                 complaints.setDepartmentName(officer.getDepartment());
 
-                officer.getReportIds().add(complaints.getId());
+                // 2: PEHLE complaint save karo MongoDB ID yahan generate hogi
+                Complaints savedComplaint = reportRepo.save(complaints);
+
+                //Step 3: AB officer mein ID daalo 
+                officer.getReportIds().add(savedComplaint.getId());
                 officer.setCountReport(officer.getCountReport() + 1);
-
                 officerRepo.save(officer);
-                reportRepo.save(complaints); // Pehle save — ID generate hogi
 
-                // User ko email bhejo
-                Optional<UserEnity> optionalUser = userRepo.findById(complaints.getUserId());
+                officerName = officer.getName();
+                departmentName = officer.getDepartment();
+
+                // Step 4: User ko email bhejo
+                Optional<UserEnity> optionalUser = userRepo.findById(savedComplaint.getUserId());
                 if (optionalUser.isPresent()) {
                     UserEnity user = optionalUser.get();
                     emailService.sendEmail(
@@ -78,11 +84,11 @@ public class CompliantService {
                         "Complaint Successfully Submitted - CivicInsight",
                         "<h2>Hello " + user.getName() + "!</h2>" +
                         "<p>Aapki complaint successfully submit ho gayi hai.</p>" +
-                        "<p><b>Complaint ID:</b> " + complaints.getId() + "</p>" +
-                        "<p><b>Complaint:</b> " + complaints.getComplaint() + "</p>" +
+                        "<p><b>Complaint ID:</b> " + savedComplaint.getId() + "</p>" +
+                        "<p><b>Complaint:</b> " + savedComplaint.getComplaint() + "</p>" +
                         "<p><b>Assigned Officer:</b> " + officer.getName() + "</p>" +
                         "<p><b>Department:</b> " + officer.getDepartment() + "</p>" +
-                        "<p><b>City:</b> " + complaints.getCity() + "</p>" +
+                        "<p><b>City:</b> " + savedComplaint.getCity() + "</p>" +
                         "<p><b>Urgency:</b> " + response.getAnalysis().getUrgency() + "</p>" +
                         "<p><b>Status:</b> Pending ⏳</p>" +
                         "<p>CivicInsight Team</p>"
@@ -93,7 +99,7 @@ public class CompliantService {
             }
         }
 
-        return "Your Report Is Submitted By " + OfficerName + " Department Name " + DepartmentName;
+        return "Your Report Is Submitted By " + officerName + " Department Name " + departmentName;
     }
 
     public Complaints checkstatus(String id) {
