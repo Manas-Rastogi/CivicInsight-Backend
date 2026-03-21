@@ -13,12 +13,10 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>CivicInsight</name>
 	<description>AI Based Civic Grievance System</description>
-
 	<properties>
 		<java.version>17</java.version>
 		<jjwt.version>0.11.5</jjwt.version>
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -37,9 +35,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+
+		<!-- Resend Email API — SMTP ki jagah (Render pe SMTP kaam nahi karta) -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
+			<groupId>com.resend</groupId>
+			<artifactId>resend-java</artifactId>
+			<version>3.1.0</version>
 		</dependency>
 
 		<dependency>
@@ -59,14 +60,12 @@
 			<version>${jjwt.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -79,7 +78,8 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-                            <version>1.18.30</version> </path>
+							<version>1.18.30</version>
+						</path>
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
