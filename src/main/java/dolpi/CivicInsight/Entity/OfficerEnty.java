@@ -41,6 +41,14 @@ public class OfficerEnty {
 
     private List<String> roles;
 
+    private double rating;
+
+    private int totalRatings;
+
+    private int completedOnTime;
+
+    private int missed;
+
     private List<String>reportIds=new ArrayList<>();
 
     private LocalDateTime createdAt;
