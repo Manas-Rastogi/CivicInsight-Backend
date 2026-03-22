@@ -28,6 +28,9 @@ public class ComplaintSlaScheduler {
     @Autowired
     private EmailService emailService; //Email bhejne ke liye
 
+    @Autowired 
+    private OfficerRepo officerrepo;
+
     @Scheduled(fixedRate = 1800000)
     public void checkSlaBreaches() {
         LocalDateTime now = LocalDateTime.now();
@@ -89,7 +92,22 @@ public class ComplaintSlaScheduler {
                         "<p>CivicInsight Team</p>"
                     );
                 }
+
+                //This Rating logic
+                if(complaint.getOfficerId() != null){
+                  OfficerEnty officer=officerRepo.findById(complaint.getOfficerId());
+
+                  double currentRating = officer.getRating();
+                  int total = officer.getTotalRatings();
+    
+                  double newRating = Math.max(0.0,((currentRating * total) - 1.0) / (total + 1));
+    
+                 officer.setRating(newRating);
+                 officer.setTotalRatings(total + 1);
+                 officer.setMissed(officer.getMissed() + 1);
+                 officerRepo.save(officer);
             }
-        }
+       }
     }
+ }
 }
