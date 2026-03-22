@@ -112,6 +112,16 @@ public class OfficerAninalyisisComplaintsService {
     }
 }
 
+    // ⏰ Deadline helper method — same class mein add karo
+private LocalDateTime getDeadline(Complaints complaint) {
+    return switch (complaint.getUrgency()) {
+        case "HIGH"   -> complaint.getCreatedAt().plusHours(24);
+        case "MEDIUM" -> complaint.getCreatedAt().plusDays(3);
+        case "LOW"    -> complaint.getCreatedAt().plusWeeks(7);
+        default       -> complaint.getCreatedAt().plusDays(3);
+    };
+}
+
     public OfficerEnty findOfficer(String Id) {
         Optional<OfficerEnty> optionalOfficer = officerRepo.findById(Id);
         if (!optionalOfficer.isPresent()) throw new ResourcesNotFound("Officer Null");
