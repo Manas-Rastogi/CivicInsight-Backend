@@ -17,7 +17,7 @@ public class PublicOfficerController {
     @Autowired
     private OfficerRepo officerRepo;
 
-    @PostMapping("/rating")
+    @GetMapping("/rating")
     public ResponseEntity<?> getOfficerRating(@RequestParam String Id) {
         try {
             Optional<OfficerEnty> opt = officerRepo.findById(Id);
