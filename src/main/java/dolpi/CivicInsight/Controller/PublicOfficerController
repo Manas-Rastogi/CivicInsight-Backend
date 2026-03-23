@@ -24,7 +24,7 @@ public class PublicOfficerController {
 
         OfficerEnty o = opt.get();
 
-        // Sirf public fields — password, roles, email expose nahi hoga
+        // Sirf public fields
         Map<String, Object> result = new HashMap<>();
         result.put("name",            o.getName());
         result.put("department",      o.getDepartment());
