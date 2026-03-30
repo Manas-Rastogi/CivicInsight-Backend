@@ -6,11 +6,10 @@ import dolpi.CivicInsight.Entity.UserEnity;
 import dolpi.CivicInsight.Repository.AdminRepo;
 import dolpi.CivicInsight.Repository.OfficerRepo;
 import dolpi.CivicInsight.Repository.UserRepo;
-import dolpi.CivicInsight.JwtFilter.JwtService;
+import dolpi.CivicInsight.JwtToken.jwttoken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -41,7 +40,7 @@ public class GoogleAuthService {
     private OfficerRepo officerRepo;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private jwttoken jwtUtil;
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String clientId;
@@ -51,7 +50,7 @@ public class GoogleAuthService {
 
     public String handleGoogleCallback(String code, String check) {
 
-        // Step 1: Google token 
+        // Step 1: Google se token lo
         String tokenEndpoint = "https://oauth2.googleapis.com/token";
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
@@ -75,7 +74,7 @@ public class GoogleAuthService {
             throw new RuntimeException("Failed to fetch Google token");
         }
 
-        // Step 2: Email fetch 
+        // Step 2: Email fetch karo
         String idToken = (String) tokenResponse.getBody().get("id_token");
         String userInfoUrl =
                 "https://oauth2.googleapis.com/tokeninfo?id_token=" + idToken;
@@ -90,12 +89,12 @@ public class GoogleAuthService {
 
         String email = (String) userInfoResponse.getBody().get("email");
 
-        // Step 3: User exist or NO
-        UserEnity user       = userRepo.findByUsername(email);
-        OfficerEnty officer  = officerRepo.findByUsername(email);
-        Admin admin          = adminRepo.findByUsername(email);
+        // Step 3: User exist karta hai ya nahi
+        UserEnity user      = userRepo.findByUsername(email);
+        OfficerEnty officer = officerRepo.findByUsername(email);
+        Admin admin         = adminRepo.findByUsername(email);
 
-        // Step 4: Nahi hai toh create
+        // Step 4: Nahi hai toh create karo
         if (user == null && officer == null && admin == null) {
             if (check.equals("user")) {
                 createUser(email);
@@ -106,12 +105,10 @@ public class GoogleAuthService {
             }
         }
 
-        // step 5: JWT token generate
-        UserDetails userDetails = myUserDetails.loadUserByUsername(email);
-        return jwtUtil.generateToken(userDetails);
+        // Step 5: JWT token generate karo — directly email pass karo
+        return jwtUtil.generateToken(email);
     }
 
-    // ── User create 
     private void createUser(String email) {
         UserEnity user = new UserEnity();
         user.setEmail(email);
@@ -122,7 +119,6 @@ public class GoogleAuthService {
         userRepo.save(user);
     }
 
-    // ── Officer create
     private void createOfficer(String email) {
         OfficerEnty officer = new OfficerEnty();
         officer.setEmail(email);
@@ -133,7 +129,6 @@ public class GoogleAuthService {
         officerRepo.save(officer);
     }
 
-    // ── Admin create
     private void createAdmin(String email) {
         Admin admin = new Admin();
         admin.setEmail(email);
