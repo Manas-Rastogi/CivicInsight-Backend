@@ -6,7 +6,7 @@ import dolpi.CivicInsight.Entity.UserEnity;
 import dolpi.CivicInsight.Repository.AdminRepo;
 import dolpi.CivicInsight.Repository.OfficerRepo;
 import dolpi.CivicInsight.Repository.UserRepo;
-import dolpi.CivicInsight.JwtFilter.JwtUtil;
+import dolpi.CivicInsight.JwtFilter.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
