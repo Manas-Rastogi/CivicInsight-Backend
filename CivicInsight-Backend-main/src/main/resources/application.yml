@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: ${MONGODB_URI}
+      uri: mongodb://rastogimanas329:Ys54a4sUZbZpCxhP@cluster0-shard-00-00.v18euvm.mongodb.net:27017,cluster0-shard-00-01.v18euvm.mongodb.net:27017,cluster0-shard-00-02.v18euvm.mongodb.net:27017/CivicInsight?ssl=true&replicaSet=atlas-v18euvm-shard-0&authSource=admin&retryWrites=true&w=majority
       database: civicinsight
   mail:
     host: smtp-relay.brevo.com
