@@ -6,16 +6,16 @@ import dolpi.CivicInsight.Entity.UserEnity;
 import dolpi.CivicInsight.Repository.AdminRepo;
 import dolpi.CivicInsight.Repository.ReportRepo;
 import dolpi.CivicInsight.Repository.UserRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 @Slf4j
+@Service
 public class ComplaintSlaScheduler {
 
     @Autowired
@@ -25,10 +25,10 @@ public class ComplaintSlaScheduler {
     private AdminRepo adminrepo;
 
     @Autowired
-    private UserRepo userRepo; // User fetch karne ke liye
+    private UserRepo userRepo;
 
     @Autowired
-    private EmailService emailService; //Email bhejne ke liye
+    private EmailService emailService;
 
     @Scheduled(fixedRate = 1800000)
     public void checkSlaBreaches() {
@@ -46,10 +46,11 @@ public class ComplaintSlaScheduler {
                         threshold
                 );
 
-         if (complaints == null || complaints.isEmpty()) {
-         log.info("No complaints found for urgency: {}", urgency);
-         return;
-         }
+        // Bug 2 Fix — exception nahi, sirf return
+        if (complaints == null || complaints.isEmpty()) {
+            log.info("No complaints found for urgency: {}", urgency);
+            return;
+        }
 
         System.out.println("Urgency: " + urgency);
         System.out.println("Found: " + complaints.size());
@@ -63,7 +64,6 @@ public class ComplaintSlaScheduler {
                 complaint.setNotified(true);
                 complaintRepository.save(complaint);
 
-                // Admin ko email bhejo
                 emailService.sendEmail(
                     admin.getEmail(),
                     "SLA Breach Alert - CivicInsight",
@@ -78,23 +78,25 @@ public class ComplaintSlaScheduler {
                     "<p>CivicInsight Team</p>"
                 );
 
-                // User ko email bhejo
-                Optional<UserEnity> optionalUser = userRepo.findById(complaint.getUserId());
-                if (optionalUser.isPresent()) {
-                    UserEnity user = optionalUser.get();
-                    emailService.sendEmail(
-                        user.getEmail(),
-                        "Aapki Complaint Escalate Ho Gayi - CivicInsight",
-                        "<h2>Hello " + user.getName() + "!</h2>" +
-                        "<p>Aapki complaint ka abhi tak koi jawab nahi aaya, isliye ise admin ko escalate kar diya gaya hai.</p>" +
-                        "<p><b>Complaint ID:</b> " + complaint.getId() + "</p>" +
-                        "<p><b>Complaint:</b> " + complaint.getComplaint() + "</p>" +
-                        "<p><b>City:</b> " + complaint.getCity() + "</p>" +
-                        "<p><b>Urgency:</b> " + urgency + "</p>" +
-                        "<p><b>Status:</b> Admin ke paas bhej di gayi hai ⚠️</p>" +
-                        "<p>Hum jald se jald aapki complaint resolve karne ki koshish karenge.</p>" +
-                        "<p>CivicInsight Team</p>"
-                    );
+                // Bug 3 Fix — userId null check
+                if (complaint.getUserId() != null) {
+                    Optional<UserEnity> optionalUser = userRepo.findById(complaint.getUserId());
+                    if (optionalUser.isPresent()) {
+                        UserEnity user = optionalUser.get();
+                        emailService.sendEmail(
+                            user.getEmail(),
+                            "Aapki Complaint Escalate Ho Gayi - CivicInsight",
+                            "<h2>Hello " + user.getName() + "!</h2>" +
+                            "<p>Aapki complaint ka abhi tak koi jawab nahi aaya, isliye ise admin ko escalate kar diya gaya hai.</p>" +
+                            "<p><b>Complaint ID:</b> " + complaint.getId() + "</p>" +
+                            "<p><b>Complaint:</b> " + complaint.getComplaint() + "</p>" +
+                            "<p><b>City:</b> " + complaint.getCity() + "</p>" +
+                            "<p><b>Urgency:</b> " + urgency + "</p>" +
+                            "<p><b>Status:</b> Admin ke paas bhej di gayi hai ⚠️</p>" +
+                            "<p>Hum jald se jald aapki complaint resolve karne ki koshish karenge.</p>" +
+                            "<p>CivicInsight Team</p>"
+                        );
+                    }
                 }
             }
         }
