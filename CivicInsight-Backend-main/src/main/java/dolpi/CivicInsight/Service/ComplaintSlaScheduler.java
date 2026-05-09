@@ -44,10 +44,10 @@ public class ComplaintSlaScheduler {
                         threshold
                 );
 
-        if (complaints == null || complaints.isEmpty()) {
-         log.info("No complaints found for urgency: {}", urgency);
-         
-         }
+          if (complaints == null || complaints.isEmpty()) {
+           log.info("No complaints found for urgency: {}", urgency);
+           throw new ResourcesNotFound("Complaint Is Null");
+           }
 
         System.out.println("Urgency: " + urgency);
         System.out.println("Found: " + complaints.size());
