@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroqAnalysis {
+public class GroqAnalysis implements Serializable{
     private String Department;
     private String Urgency;
     private String Category;
