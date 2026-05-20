@@ -32,5 +32,6 @@ public class UserEnity {
 
     private LocalDateTime createdAt;
 
+    private List<LocalDateTime> complaintTimestamps = new ArrayList<>();
 
 }
