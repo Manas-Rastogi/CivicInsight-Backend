@@ -71,7 +71,7 @@ The system is designed with a **Privacy-First** principle at its core. All AI in
   └──────────────┘       │  └──────┬──────┘      └────────┬─────────┘  │
                         │         │                       │            │
   ┌──────────────┐       │  ┌──────▼──────┐      ┌────────▼─────────┐  │
-  │   OFFICER    │──────▶│  │  SPRING     │      │  OLLAMA ENGINE   │  │
+  │   OFFICER    │──────▶│  │  SPRING     │      │
   │   APP        │       │  │  SECURITY   │      │  Llama 3 8B      │  │
   └──────────────┘       │  │  JWT + RBAC │      │  🔒 On-Premise   │  │
                         │  └─────────────┘      └────────┬─────────┘  │
