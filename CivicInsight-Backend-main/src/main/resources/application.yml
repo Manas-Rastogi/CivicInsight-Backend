@@ -3,6 +3,9 @@ spring:
     mongodb:
       uri:  mongodb+srv://rastogimanas329:Ys54a4sUZbZpCxhP@cluster0.vl8euvm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
       database: civicinsight
+      redis:
+      host: redis-19844.crce300.ap-south-1-2.ec2.cloud.redislabs.com
+      port: 19844
   mail:
     host: smtp-relay.brevo.com
     port: 2525
