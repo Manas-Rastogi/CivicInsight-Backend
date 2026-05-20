@@ -11,6 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GroqAnalysis implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String Department;
     private String Urgency;
     private String Category;
