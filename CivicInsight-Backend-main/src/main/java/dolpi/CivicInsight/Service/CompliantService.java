@@ -47,6 +47,7 @@ public class CompliantService {
 
         GroqAnalysis analysis;
 
+        //check Cached
         if (cachedAnalysis != null) {
             log.info("✅ Cached analysis use - Groq skip!");
             analysis = cachedAnalysis;
@@ -61,6 +62,7 @@ public class CompliantService {
             log.info("save in the Redis: {}", md5Key);
         }
 
+        //fecth every officer city and department 
         List<OfficerEnty> listofofficer = officerRepo.findByCityAndDepartment(
                 complaints.getCity(), analysis.getDepartment()
         );
@@ -71,6 +73,7 @@ public class CompliantService {
             return;
         }
 
+        //check every officer
         for (OfficerEnty officer : listofofficer) {
             if (officer.getCountReport() < 5) {
 
