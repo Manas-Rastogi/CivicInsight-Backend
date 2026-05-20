@@ -35,16 +35,16 @@ public class SendComplaintService {
 
     public String sendcomplaint(Complaints complaints) {
 
-        // STEP 1: User dhundo MongoDB se
+        // Fetech user in the db
         UserEnity user = userRepo.findById(complaints.getUserId())
                 .orElseThrow(() -> new ResourcesNotFound("User not found"));
 
-        // STEP 2: 1 ghante purane timestamps hatao
+        // 1 Hours Old Remove
         LocalDateTime oneHourAgo = LocalDateTime.now().minusHours(1);
         user.getComplaintTimestamps()
                 .removeIf(time -> time.isBefore(oneHourAgo));
 
-        // STEP 3: Rate limit check karo
+        // check rate limit
         if (user.getComplaintTimestamps().size() >= MAX_COMPLAINTS) {
             throw new RuntimeException(
                     "1 ghante mein sirf 5 complaints bhej sakte ho. " +
@@ -52,7 +52,7 @@ public class SendComplaintService {
             );
         }
 
-        // STEP 4: MD5 hash banao
+        // Craete Hashcode
         String md5Key = "complaint:exact:" +
                 DigestUtils.md5DigestAsHex(
                         complaints.getComplaint()
@@ -61,7 +61,7 @@ public class SendComplaintService {
                                   .getBytes()
                 );
 
-        // STEP 5: Redis mein check karo
+        // Check In Redis 
         GroqAnalysis cachedAnalysis =
                 (GroqAnalysis) redisTemplate.opsForValue().get(md5Key);
 
@@ -75,7 +75,7 @@ public class SendComplaintService {
         complaints.setStatus("Processing");
         reportRepo.save(complaints);
 
-        // STEP 7: Background mein process karo
+        // STEP Process In the BackGround
         compliantService.processComplaint(complaints, cachedAnalysis, md5Key);
 
         // Timestamp save
