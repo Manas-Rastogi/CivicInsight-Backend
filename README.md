@@ -16,7 +16,8 @@
   <a href="https://openjdk.org/projects/jdk/17/"><img src="https://img.shields.io/badge/Java-17-ED8B00?style=flat-square&logo=openjdk&logoColor=white" alt="Java 17"/></a>
   <a href="https://spring.io/projects/spring-boot"><img src="https://img.shields.io/badge/Spring_Boot-3.2.x-6DB33F?style=flat-square&logo=springboot&logoColor=white" alt="Spring Boot"/></a>
   <a href="https://www.mongodb.com/"><img src="https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat-square&logo=mongodb&logoColor=white" alt="MongoDB"/></a>
-  <a href="https://ollama.com/"><img src="https://img.shields.io/badge/Ollama-Llama_3_8B-black?style=flat-square" alt="Ollama"/></a>
+  <a href="https://redis.io/"><img src="https://img.shields.io/badge/Redis-Cache-DC382D?style=flat-square&logo=redis&logoColor=white" alt="Redis"/></a>
+  <a href="https://groq.com/"><img src="https://img.shields.io/badge/Groq-Llama_3_8B-F55036?style=flat-square" alt="Groq Llama3"/></a>
   <a href="#"><img src="https://img.shields.io/badge/Security-JWT_+_RBAC-DC2626?style=flat-square&logo=jsonwebtokens&logoColor=white" alt="JWT"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-3B82F6?style=flat-square" alt="License"/></a>
 </p>
@@ -38,7 +39,7 @@
 
 ## 📌 Overview
 
-**CivicInsight** is a robust, privacy-first backend system built to digitize and automate how political constituencies in India handle citizen grievances. By combining **Spring Boot**, **MongoDB**, and a **locally-hosted Llama 3** language model, it transforms fragmented, paper-based complaint workflows into a structured, real-time command center — with zero dependency on external cloud AI providers.
+**CivicInsight** is a robust, privacy-first backend system built to digitize and automate how political constituencies in India handle citizen grievances. By combining **Spring Boot**, **MongoDB**, **Redis**, and **Groq-hosted Llama 3**, it transforms fragmented, paper-based complaint workflows into a structured, real-time command center — with fast AI inference and intelligent response caching.
 
 ---
 
@@ -59,7 +60,7 @@ CivicInsight addresses all four by establishing a **unified Digital Command Cent
 
 ## 🏗️ Architecture
 
-The system is designed with a **Privacy-First** principle at its core. All AI inference is executed on local hardware via Ollama — citizen data never reaches an external API.
+The system is designed with a **Performance-First** principle at its core. Duplicate complaint analysis is served from **Redis cache**, and all AI inference is executed via **Groq's Llama 3 API** — delivering ultra-fast classification with no GPU requirement on local hardware.
 
 ```
                         ┌──────────────────────────────────────────────┐
@@ -71,14 +72,18 @@ The system is designed with a **Privacy-First** principle at its core. All AI in
   └──────────────┘       │  └──────┬──────┘      └────────┬─────────┘  │
                         │         │                       │            │
   ┌──────────────┐       │  ┌──────▼──────┐      ┌────────▼─────────┐  │
-  │   OFFICER    │──────▶│  │  SPRING     │      │
-  │   APP        │       │  │  SECURITY   │      │  Llama 3 8B      │  │
-  └──────────────┘       │  │  JWT + RBAC │      │  🔒 On-Premise   │  │
-                        │  └─────────────┘      └────────┬─────────┘  │
-  ┌──────────────┐       │                                │            │
-  │   ADMIN      │──────▶│  ┌─────────────────────────────▼──────────┐ │
-  │   DASHBOARD  │       │  │             MONGODB                     │ │
-  └──────────────┘       │  │  Grievances · Officers · Audit Logs    │ │
+  │   OFFICER    │──────▶│  │  SPRING     │      │ Redis Cache      │  │
+  │   APP        │       │  │  SECURITY   │      │ ⚡ MD5 Dedup     │  │
+  └──────────────┘       │  │  JWT + RBAC │      └────────┬─────────┘  │
+                        │  └─────────────┘               │            │
+  ┌──────────────┐       │                       ┌────────▼─────────┐  │
+  │   ADMIN      │──────▶│                       │ Groq — Llama 3   │  │
+  │   DASHBOARD  │       │                       │ 🚀 Fast Inference│  │
+  └──────────────┘       │                       └────────┬─────────┘  │
+                        │                                │            │
+                        │  ┌─────────────────────────────▼──────────┐ │
+                        │  │             MONGODB                     │ │
+                        │  │  Grievances · Officers · Audit Logs    │ │
                         │  └─────────────────────────────────────────┘ │
                         │                      │                       │
                         │  ┌───────────────────▼─────────────────────┐ │
@@ -93,17 +98,18 @@ The system is designed with a **Privacy-First** principle at its core. All AI in
 ```
   STEP 1          STEP 2           STEP 3            STEP 4           STEP 5
   ────────        ────────         ────────          ────────         ────────
-  Citizen   ───▶  AI Inference ───▶ Classification ──▶ Auto-Assign  ──▶  SLA
-  Submits         Ollama/Llama3     Dept + Priority     Load-balanced    Tracking
-  Complaint       processes text    + Sentiment         Officer           + Escalation
+  Citizen   ───▶  Redis Check ───▶ AI Inference ──▶ Auto-Assign  ──▶  SLA
+  Submits         MD5 hash         Groq/Llama3        Load-balanced    Tracking
+  Complaint       cache lookup     (if cache miss)    Officer           + Escalation
 ```
 
 1. **Intake** — Citizen submits a complaint with optional image attachment via the mobile or web portal.
-2. **AI Inference** — The backend forwards complaint text to the local Ollama engine running Llama 3 8B.
-3. **Classification** — The model returns a structured JSON object containing the department, priority tier, and sentiment signal.
-4. **Auto-Assignment** — The Smart Dispatcher calculates the nearest officer with the lowest active workload and assigns the ticket.
-5. **SLA Monitoring** — A Spring Scheduler cron job continuously evaluates every open ticket against its deadline.
-6. **Escalation** — Any ticket breaching its SLA is automatically escalated to the Political Administrator.
+2. **Cache Check** — The backend computes an MD5 hash of the complaint text and checks Redis for a cached analysis result.
+3. **AI Inference** — On a cache miss, the complaint text is forwarded to **Groq's Llama 3 8B** API for classification.
+4. **Classification** — The model returns a structured JSON object containing the department, priority tier, and sentiment signal. The result is cached in Redis for 24 hours.
+5. **Auto-Assignment** — The Smart Dispatcher calculates the nearest officer with the lowest active workload and assigns the ticket.
+6. **SLA Monitoring** — A Spring Scheduler cron job continuously evaluates every open ticket against its deadline.
+7. **Escalation** — Any ticket breaching its SLA is automatically escalated to the Political Administrator.
 
 ---
 
@@ -112,8 +118,11 @@ The system is designed with a **Privacy-First** principle at its core. All AI in
 #### 🧠 Smart Dispatcher
 A load-balancing algorithm evaluates officer geo-proximity and current ticket queue depth before every assignment. This prevents officer burnout and ensures equitable, geography-aware task distribution.
 
-#### 🔒 Privacy-First AI
-Llama 3 runs entirely via Ollama on the local server. No complaint text, citizen identity, or location data is ever transmitted to an external cloud service — critical for political contexts and data compliance.
+#### ⚡ Redis Caching Layer
+Identical or near-identical complaints are detected via **MD5 hashing** and served directly from **Redis** — skipping the AI inference step entirely. This eliminates redundant API calls, reduces latency, and ensures consistent classification for duplicate grievances.
+
+#### 🚀 Groq-Powered AI Inference
+Llama 3 8B runs on **Groq's cloud infrastructure**, delivering sub-second classification responses. This removes the need for local GPU hardware while maintaining high-speed, reliable AI processing.
 
 #### ⏱️ SLA & Escalation Engine
 Background jobs via **Spring Scheduler** monitor every active ticket against configurable SLA thresholds (24h / 48h / 72h). Breaches trigger automatic escalation chains without requiring manual intervention.
@@ -133,7 +142,8 @@ Three distinct access tiers are secured end-to-end with **JWT authentication**:
 | **Language** | Java 17 | Core application runtime |
 | **Framework** | Spring Boot 3.2.x | REST API, dependency injection, scheduling |
 | **Database** | MongoDB | Flexible document storage for grievances |
-| **AI Engine** | Ollama — Llama 3 8B | On-premise NLP classification |
+| **Cache** | Redis | MD5-based response caching and rate limiting |
+| **AI Engine** | Groq — Llama 3 8B | Fast cloud NLP classification |
 | **Security** | Spring Security + JWT | Authentication and RBAC enforcement |
 | **Build Tool** | Maven | Dependency management and packaging |
 | **Scheduler** | Spring Scheduler | SLA monitoring and escalation triggers |
@@ -203,7 +213,22 @@ Content-Type: application/json
 
 ## 🤖 AI Engine
 
-CivicInsight uses **Llama 3 8B via Ollama** for fully local, privacy-preserving NLP classification — eliminating recurring API costs and cloud data exposure.
+CivicInsight uses **Llama 3 8B via Groq** for fast, scalable NLP classification — with **Redis caching** to eliminate redundant inference calls and keep response times consistently low.
+
+### Caching Strategy
+
+Every complaint is hashed using **MD5** before hitting the AI layer. If an identical complaint has been processed before, the cached `GroqAnalysis` result is returned from Redis instantly — no API call required. Results are cached for **24 hours**.
+
+```
+Complaint Text  ──▶  MD5 Hash  ──▶  Redis Lookup
+                                         │
+                              ┌──────────┴──────────┐
+                              │ HIT                  │ MISS
+                              ▼                      ▼
+                       Return cached          Call Groq API
+                       GroqAnalysis           Cache result
+                                              Return result
+```
 
 ### Classification Prompt Template
 
@@ -258,7 +283,8 @@ Ensure the following are installed and running before setup:
 
 - ☕ [Java 17+](https://openjdk.org/projects/jdk/17/)
 - 🍃 [MongoDB](https://www.mongodb.com/) (local instance or Atlas cluster)
-- 🦙 [Ollama](https://ollama.com/) with `llama3` model pulled
+- ⚡ [Redis](https://redis.io/) (local instance or managed service)
+- 🤖 [Groq API Key](https://console.groq.com/) (free tier available)
 
 ---
 
@@ -271,14 +297,17 @@ cd civic-insight-backend
 
 ---
 
-### Step 2 — Setup Ollama
+### Step 2 — Start Redis
 
 ```bash
-# Pull the Llama 3 8B model (~4.7 GB)
-ollama pull llama3
+# Using Docker (recommended)
+docker run -d -p 6379:6379 redis
 
-# Verify the model is available
-ollama run llama3 "respond with: ready"
+# Or start local Redis server
+redis-server
+
+# Verify Redis is running
+redis-cli ping   # should return: PONG
 ```
 
 ---
@@ -291,9 +320,14 @@ Edit `src/main/resources/application.properties`:
 # ── Database ──────────────────────────────────────────
 spring.data.mongodb.uri=your_mongodb_connection_uri
 
-# ── AI Engine ─────────────────────────────────────────
-ollama.api.url=http://localhost:11434/api/generate
-ollama.model.name=llama3
+# ── Redis Cache ───────────────────────────────────────
+spring.data.redis.host=localhost
+spring.data.redis.port=6379
+
+# ── AI Engine (Groq) ──────────────────────────────────
+groq.api.url=https://api.groq.com/openai/v1/chat/completions
+groq.api.key=your_groq_api_key
+groq.model.name=llama3-8b-8192
 
 # ── Security ──────────────────────────────────────────
 jwt.secret=your_256_bit_secret_key
@@ -326,9 +360,9 @@ The server will start at **`http://localhost:8080`**.
 | Metric | Result |
 |:---|:---|
 | ⚡ **Complaint Categorization Speed** | **80% faster** — AI classifies in milliseconds vs. manual hours |
+| 🔄 **Duplicate Request Savings** | **Redis cache** eliminates redundant Groq API calls for identical complaints |
 | 📋 **Accountability Coverage** | **100%** — Every ticket is timestamped, assigned, and auditable |
 | 📊 **Policy Visibility** | Leaders gain **real-time heatmaps** to prioritize budget allocation |
-| 🔒 **Data Privacy** | **Zero cloud exposure** — all AI inference runs on local infrastructure |
 
 ---
 
@@ -337,6 +371,7 @@ The server will start at **`http://localhost:8080`**.
 - [ ] WhatsApp Bot integration for multi-channel complaint intake
 - [ ] SMS notifications via Twilio for real-time status updates
 - [ ] Hindi, Bengali, Tamil, and Telugu NLP support
+- [ ] Officer mobile application (React Native)
 - [ ] Fine-tuned civic domain model to replace base Llama 3
 - [ ] Geo-clustering heatmaps for constituency analytics dashboard
 
@@ -372,3 +407,160 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for full details
 **If this project is useful to you, consider giving it a ⭐**
 
 </div>
+
+## Final Code
+
+---
+
+### 1. `UserEnity.java`
+
+```java
+package dolpi.CivicInsight.Entity;
+
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Document(collection = "users")
+@Data
+public class UserEnity {
+
+    @Id
+    private String id;
+    private String name;
+    private String email;
+    private List<LocalDateTime> complaintTimestamps = new ArrayList<>();
+}
+```
+
+---
+
+### 2. `GroqAnalysis.java`
+
+```java
+package dolpi.CivicInsight.Entity;
+
+import lombok.Builder;
+import lombok.Data;
+
+import java.io.Serializable;
+
+@Data
+@Builder
+public class GroqAnalysis implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private String Department;
+    private String Urgency;
+    private String Category;
+    private String Summary;
+    private String Suggested_Action;
+}
+```
+
+---
+
+### 3. `RedisConfig.java`
+
+```java
+package dolpi.CivicInsight.Config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+@Configuration
+public class RedisConfig {
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(factory);
+        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        template.setKeySerializer(new StringRedisSerializer());
+        return template;
+    }
+}
+```
+
+---
+
+### 4. `SendComplaintService.java`
+
+```java
+package dolpi.CivicInsight.Service;
+
+import dolpi.CivicInsight.Entity.Complaints;
+import dolpi.CivicInsight.Entity.GroqAnalysis;
+import dolpi.CivicInsight.Entity.UserEnity;
+import dolpi.CivicInsight.Exception.ResourcesNotFound;
+import dolpi.CivicInsight.Repository.ReportRepo;
+import dolpi.CivicInsight.Repository.UserRepo;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+
+@Service
+@Slf4j
+public class SendComplaintService {
+
+    @Autowired
+    private ReportRepo reportRepo;
+
+    @Autowired
+    private CompliantService compliantService;
+
+    @Autowired
+    private UserRepo userRepo;
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+    private static final int MAX_COMPLAINTS = 5;
+
+    public String sendcomplaint(Complaints complaints) {
+
+        // STEP 1: User dhundo MongoDB se
+        UserEnity user = userRepo.findById(complaints.getUserId())
+                .orElseThrow(() -> new ResourcesNotFound("User not found"));
+
+        // STEP 2: 1 ghante purane timestamps hatao
+        LocalDateTime oneHourAgo = LocalDateTime.now().minusHours(1);
+        user.getComplaintTimestamps()
+                .removeIf(time -> time.isBefore(oneHourAgo));
+
+        // STEP 3: Rate limit check karo
+        if (user.getComplaintTimestamps().size() >= MAX_COMPLAINTS) {
+            throw new RuntimeException(
+                    "1 ghante mein sirf 5 complaints bhej sakte ho. " +
+                    "Thodi der baad try karo."
+            );
+        }
+
+        // STEP 4: MD5 hash banao
+        String md5Key = "complaint:exact:" +
+                DigestUtils.md5DigestAsHex(
+                        complaints.getComplaint()
+                                  .toLowerCase()
+                                  .trim()
+                                  .getBytes()
+                );
+
+        // STEP 5: Redis mein check karo
+        GroqAnalysis cachedAnalysis =
+                (GroqAnalysis) redisTemplate.opsForValue().get(md5Key);
+
+        if (cachedAnalysis != null) {
+            log.info("✅ Redis mein mili - Groq skip!
