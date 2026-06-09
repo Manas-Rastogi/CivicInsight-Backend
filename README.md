@@ -41,7 +41,7 @@
 ----------------
 **CivicInsight** is a robust, privacy-first backend system built to digitize and automate how political constituencies in India handle citizen grievances. By combining **Spring Boot**, **MongoDB**, **Redis**, and **Groq-hosted Llama 3**, it transforms fragmented, paper-based complaint workflows into a structured, real-time command center — with fast AI inference and intelligent response caching.
 
---------------------------
+-----------------------------------
 
 ## 🎯 Problem Statement
 
