@@ -388,7 +388,7 @@ git push origin feature/your-feature-name
 # Open a Pull Request
 ```
 
----
+-------------
 
 ## 📄 License
 
