@@ -10,7 +10,7 @@ CivicInsight addresses the systemic crisis in grievance management that politica
 
 CivicInsight addresses all four by establishing a unified Digital Command Center — giving elected representatives real-time situational awareness of their entire constituency.
 
----
+------------
 
 Architecture
 
