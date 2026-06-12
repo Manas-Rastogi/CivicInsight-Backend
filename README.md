@@ -2,7 +2,7 @@ CivicInsight Backend — AI-Powered Civic Command Center
 
 CivicInsight ek production-grade backend system hai jo Indian political constituencies mein citizen grievances ko digitize aur automate karta hai. Spring Boot, MongoDB, Redis, aur Groq-hosted Llama 3 ko combine karke, yeh fragmented paper-based complaint workflows ko ek structured, real-time command center mein convert karta hai — fast AI inference aur intelligent response caching ke saath.
 
---------
+-------------------------
 
 Overview
 
