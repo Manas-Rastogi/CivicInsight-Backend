@@ -84,7 +84,7 @@ Background jobs via Spring Scheduler monitor every active ticket against configu
 Role-Based Access Control
 Three distinct access tiers are secured end-to-end with JWT authentication. Citizens can submit complaints, receive updates, and track resolution status. Officers can view their assigned workload, update ticket status, and upload resolution proof. Administrators get access to the full analytics dashboard, heatmaps, and officer performance reports.
 
------------------------------
+---------------------------------------------------
 
 Tech Stack
 
