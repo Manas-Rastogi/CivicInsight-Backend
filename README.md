@@ -201,7 +201,7 @@ HIGH — Road damage, water supply failure, power outage — SLA: 48 hours
 MEDIUM — Street lighting, park maintenance, waste collection — SLA: 72 hours
 LOW — General feedback, suggestions, non-urgent requests — SLA: 7 days
 
------------------------------
+---------------------------------------------------
 
 Installation
 
