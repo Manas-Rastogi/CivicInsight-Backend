@@ -143,7 +143,7 @@ Sample Response — AI-Classified Ticket:
 }
 ```
 
----
+------------------------
 
 AI Engine
 
