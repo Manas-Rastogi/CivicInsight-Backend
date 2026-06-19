@@ -56,7 +56,7 @@ Request Lifecycle
   Submits         MD5 hash         Groq/Llama3        Load-balanced    Tracking
   Complaint       cache lookup     (if cache miss)    Officer           + Escalation
 ```
------------------------
+---------------------------------------------------
 1. Intake — Citizen submits a complaint with optional image attachment via the mobile or web portal.
 2. Cache Check — The backend computes an MD5 hash of the complaint text and checks Redis for a cached analysis result.
 3. AI Inference — On a cache miss, the complaint text is forwarded to Groq's Llama 3 8B API for classification.
