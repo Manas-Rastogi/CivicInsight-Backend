@@ -13,7 +13,7 @@ CivicInsight addresses all four by establishing a unified Digital Command Center
 ---------------------------------------------------
 
 Architecture
-
+------------
 The system is designed with a performance-first principle at its core. Duplicate complaint analysis is served from Redis cache, and all AI inference is executed via Groq's Llama 3 API — delivering ultra-fast classification with no GPU requirement on local hardware.
 
 ```
