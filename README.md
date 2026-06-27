@@ -261,7 +261,7 @@ WhatsApp Bot integration for multi-channel complaint intake. SMS notifications v
 ---------------------------------------------------
 
 Contributing
-
+------------
 Contributions, issues, and feature requests are welcome. Please read CONTRIBUTING.md before submitting a pull request.
 
 ```bash
