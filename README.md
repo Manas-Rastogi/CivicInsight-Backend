@@ -69,7 +69,7 @@ Request Lifecycle
 ---------------------------------------------------
 
 Key Features
--------------
+---------------------------------------------------
 Smart Dispatcher
 A load-balancing algorithm evaluates officer geo-proximity and current ticket queue depth before every assignment. This prevents officer burnout and ensures equitable, geography-aware task distribution.
 
