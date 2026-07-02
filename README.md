@@ -98,7 +98,7 @@ API Reference
 Base URL: http://localhost:8080/api/v1
 All protected endpoints require the header: Authorization: Bearer JWT_TOKEN
 
-POST /complaints — Role: CITIZEN — Submit a new grievance with optional image.
+POST /complaints — Role: CITIZEN — Suubmit a new grievance with optional image.
 GET /complaints/track/{id} — Role: CITIZEN — Retrieve live status and full resolution history.
 GET /officer/tasks — Role: OFFICER — View all assigned tickets with SLA deadlines.
 PATCH /complaints/{id}/status — Role: OFFICER — Update ticket status and attach resolution proof.
@@ -211,7 +211,7 @@ Prerequisites: Java 17+, MongoDB (local or Atlas), Redis (local or managed), and
 Step 1 — Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/civic-insight-backend.git
+git clone https://github.com/Manas-Rastogi/civic-insight-backend.git
 cd civic-insight-backend
 ```
 
@@ -245,7 +245,7 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-Server starts at http://localhost:8080.
+Server starts at http://13.60.184.171:8080.
 
 ---------------------------------------------------
 
