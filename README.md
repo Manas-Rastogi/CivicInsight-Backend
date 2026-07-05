@@ -196,7 +196,7 @@ Output:
 ```
 
 Priority Classification:
-
+---------------------------------------------------
 CRITICAL — Medical emergencies, violence, flooding — SLA: 24 hours
 HIGH — Road damage, water supply failure, power outage — SLA: 48 hours
 MEDIUM — Street lighting, park maintenance, waste collection — SLA: 72 hours
