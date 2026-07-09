@@ -75,7 +75,7 @@ A load-balancing algorithm evaluates officer geo-proximity and current ticket qu
 ---------------------------------------------------
 Redis Caching Layer
 Identical or near-identical complaints are detected via MD5 hashing and served directly from Redis — skipping the AI inference step entirely. This eliminates redundant API calls, reduces latency, and ensures consistent classification for duplicate grievances.
-
+---------------------------------------------------
 Groq-Powered AI Inference
 Llama 3 8B runs on Groq's cloud infrastructure, delivering sub-second classification responses. This removes the need for local GPU hardware while maintaining high-speed, reliable AI processing.
 
