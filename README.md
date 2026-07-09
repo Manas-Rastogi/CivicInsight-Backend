@@ -72,7 +72,7 @@ Key Features
 ---------------------------------------------------
 Smart Dispatcher
 A load-balancing algorithm evaluates officer geo-proximity and current ticket queue depth before every assignment. This prevents officer burnout and ensures equitable, geography-aware task distribution.
-
+---------------------------------------------------
 Redis Caching Layer
 Identical or near-identical complaints are detected via MD5 hashing and served directly from Redis — skipping the AI inference step entirely. This eliminates redundant API calls, reduces latency, and ensures consistent classification for duplicate grievances.
 
