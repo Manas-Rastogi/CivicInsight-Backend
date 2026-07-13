@@ -48,7 +48,7 @@ The system is designed with a performance-first principle at its core. Duplicate
                         │  └─────────────────────────────────────────┘ │
                         └──────────────────────────────────────────────┘
 ```
-
+---------------------------------------------------
 Request Lifecycle
 
 ```
