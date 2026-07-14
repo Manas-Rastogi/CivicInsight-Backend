@@ -122,7 +122,7 @@ Content-Type: application/json
   }
 }
 ```
-
+---------------------------------------------------
 Sample Response — AI-Classified Ticket:
 
 ```json
