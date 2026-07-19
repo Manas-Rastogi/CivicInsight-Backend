@@ -82,7 +82,7 @@ Llama 3 8B runs on Groq's cloud infrastructure, delivering sub-second classifica
 ---------------------------------------------------
 SLA and Escalation Engine
 Background jobs via Spring Scheduler monitor every active ticket against configurable SLA thresholds — 24 hours for critical, 48 for high, 72 for medium. Breaches trigger automatic escalation chains without requiring manual intervention.
-
+---------------------------------------------------
 Role-Based Access Control
 Three distinct access tiers are secured end-to-end with JWT authentication. Citizens can submit complaints, receive updates, and track resolution status. Officers can view their assigned workload, update ticket status, and upload resolution proof. Administrators get access to the full analytics dashboard, heatmaps, and officer performance reports.
 
