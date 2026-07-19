@@ -79,7 +79,7 @@ Identical or near-identical complaints are detected via MD5 hashing and served d
 ---------------------------------------------------
 Groq-Powered AI Inference
 Llama 3 8B runs on Groq's cloud infrastructure, delivering sub-second classification responses. This removes the need for local GPU hardware while maintaining high-speed, reliable AI processing.
-
+---------------------------------------------------
 SLA and Escalation Engine
 Background jobs via Spring Scheduler monitor every active ticket against configurable SLA thresholds — 24 hours for critical, 48 for high, 72 for medium. Breaches trigger automatic escalation chains without requiring manual intervention.
 
