@@ -95,7 +95,7 @@ Java 17 is the core application runtime. Spring Boot 3.2.x handles the REST API,
 ---------------------------------------------------
 
 API Reference
-
+---------------------------------------------------
 Base URL: http://localhost:8080/api/v1
 All protected endpoints require the header: Authorization: Bearer JWT_TOKEN
 
