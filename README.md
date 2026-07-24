@@ -111,7 +111,7 @@ Sample Request — POST /complaints:
 POST /api/v1/complaints
 Authorization: Bearer CITIZEN_JWT
 Content-Type: application/json
-
+---------------------------------------------------
 {
   "citizenId": "CIT_00482",
   "text": "The main road near Sector 7 market has a large pothole causing accidents daily.",
