@@ -98,7 +98,7 @@ API Reference
 ---------------------------------------------------
 Base URL: http://localhost:8080/api/v1
 All protected endpoints require the header: Authorization: Bearer JWT_TOKEN
-
+---------------------------------------------------
 POST /complaints — Role: CITIZEN — Suubmit a new grievance with optional image.
 GET /complaints/track/{id} — Role: CITIZEN — Retrieve live status and full resolution history.
 GET /officer/tasks — Role: OFFICER — View all assigned tickets with SLA deadlines.
