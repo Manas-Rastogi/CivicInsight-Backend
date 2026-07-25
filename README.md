@@ -104,7 +104,7 @@ GET /complaints/track/{id} — Role: CITIZEN — Retrieve live status and full r
 GET /officer/tasks — Role: OFFICER — View all assigned tickets with SLA deadlines.
 PATCH /complaints/{id}/status — Role: OFFICER — Update ticket status and attach resolution proof.
 GET /admin/analytics — Role: ADMIN — Fetch constituency heatmap and performance metrics.
-
+---------------------------------------------------
 Sample Request — POST /complaints:
 
 ```json
