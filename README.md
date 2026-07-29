@@ -155,7 +155,7 @@ Every complaint is hashed using MD5 before hitting the AI layer. If an identical
 
 ```
 Complaint Text  ──▶  MD5 Hash  ──▶  Redis Lookup
-                                         │
+---------------------------------------------------                     │
                               ┌──────────┴──────────┐
                               │ HIT                  │ MISS
                               ▼                      ▼
