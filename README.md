@@ -238,7 +238,7 @@ sla.critical.hours=24
 sla.high.hours=48
 sla.medium.hours=72
 ```
-
+---------------------------------------------------
 Step 4 — Build and run:
 
 ```bash
