@@ -60,6 +60,7 @@ Request Lifecycle
 ```
 ---------------------------------------------------
 1. Intake — Citizen submits a complaint with optional image attachment via the mobile or web portal.
+---------------------------------------------------
 2. Cache Check — The backend computes an MD5 hash of the complaint text and checks Redis for a cached analysis result.
 3. AI Inference — On a cache miss, the complaint text is forwarded to Groq's Llama 3 8B API for classification.
 4. Classification — The model returns a structured JSON object containing the department, priority tier, and sentiment signal. The result is cached in Redis for 24 hours.
