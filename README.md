@@ -154,7 +154,7 @@ AI Engine
 CivicInsight uses Llama 3 8B via Groq for fast, scalable NLP classification — with Redis caching to eliminate redundant inference calls and keep response times consistently low.
 ---------------------------------------------------
 Every complaint is hashed using MD5 before hitting the AI layer. If an identical complaint has been processed before, the cached result is returned from Redis instantly — no API call required. Results are cached for 24 hours.
-
+---------------------------------------------------
 ```
 Complaint Text  ──▶  MD5 Hash  ──▶  Redis Lookup
 ---------------------------------------------------                     │
