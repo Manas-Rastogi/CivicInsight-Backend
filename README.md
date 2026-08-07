@@ -9,7 +9,7 @@ CivicInsight ek production-grade backend system hai jo Indian political constitu
 Overview
 ---------------------------------------------------
 CivicInsight addresses the systemic crisis in grievance management that political offices across India face. Complaints arrive via WhatsApp, letters, and phone calls with no central record, making tracking impossible. Officers can close or ignore complaints without providing proof of resolution. Sorting thousands of grievances by hand causes multi-week backlogs. And leaders have no visibility into which areas or departments are consistently failing.
-
+---------------------------------------------------
 CivicInsight addresses all four by establishing a unified Digital Command Center — giving elected representatives real-time situational awareness of their entire constituency.
 
 ---------------------------------------------------
