@@ -5,7 +5,6 @@ CivicInsight Backend — AI-Powered Civic Command Center
 CivicInsight ek production-grade backend system hai jo Indian political constituencies mein citizen grievances ko digitize aur automate karta hai. Spring Boot, MongoDB, Redis, aur Groq-hosted Llama 3 ko combine karke, yeh fragmented paper-based complaint workflows ko ek structured, real-time command center mein convert karta hai — fast AI inference aur intelligent response caching ke saath.
 ---------------------------------------------------
 ---------------------------------------------------
-
 Overview
 ---------------------------------------------------
 CivicInsight addresses the systemic crisis in grievance management that political offices across India face. Complaints arrive via WhatsApp, letters, and phone calls with no central record, making tracking impossible. Officers can close or ignore complaints without providing proof of resolution. Sorting thousands of grievances by hand causes multi-week backlogs. And leaders have no visibility into which areas or departments are consistently failing.
@@ -108,7 +107,7 @@ PATCH /complaints/{id}/status — Role: OFFICER — Update ticket status and att
 GET /admin/analytics — Role: ADMIN — Fetch constituency heatmap and performance metrics.
 ---------------------------------------------------
 Sample Request — POST /complaints:
-
+---------------------------------------------------
 ```json
 POST /api/v1/complaints
 Authorization: Bearer CITIZEN_JWT
