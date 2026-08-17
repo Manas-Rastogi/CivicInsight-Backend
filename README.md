@@ -258,7 +258,7 @@ AI complaint categorization is 80% faster than manual processing. Redis caching 
 ---------------------------------------------------
 
 Roadmap
-
+---------------------------------------------------
 WhatsApp Bot integration for multi-channel complaint intake. SMS notifications via Twilio for real-time status updates. Hindi, Bengali, Tamil, and Telugu NLP support. Officer mobile application in React Native. Fine-tuned civic domain model to replace base Llama 3. Geo-clustering heatmaps for constituency analytics dashboard.
 
 ---------------------------------------------------
