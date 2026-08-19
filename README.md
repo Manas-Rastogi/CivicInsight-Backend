@@ -254,7 +254,7 @@ Server starts at http://13.60.184.171:8080.
 ---------------------------------------------------
 
 Impact
-
+---------------------------------------------------
 AI complaint categorization is 80% faster than manual processing. Redis caching eliminates redundant Groq API calls for identical complaints. Every ticket is timestamped, assigned, and fully auditable — 100% accountability coverage. Leaders gain real-time heatmaps to prioritize budget allocation.
 
 ---------------------------------------------------
