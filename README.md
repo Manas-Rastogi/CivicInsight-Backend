@@ -174,7 +174,7 @@ Act as a Civic Grievance Assistant for the Indian government.
 Analyze the following citizen complaint and return ONLY a valid JSON object.
 
 Complaint: "{complaint_text}"
-
+---------------------------------------------------
 Return format:
 {
   "category": "Infrastructure | Sanitation | Water Supply | Electricity | Law & Order | Healthcare | Other",
