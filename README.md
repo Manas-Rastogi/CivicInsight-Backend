@@ -70,6 +70,7 @@ Request Lifecycle
 5. Auto-Assignment — The Smart Dispatcher calculates the nearest officer with the lowest active workload and assigns the ticket.
 ---------------------------------------------------
 6. SLA Monitoring — A Spring Scheduler cron job continuously evaluates every open ticket against its deadline.
+---------------------------------------------------
 7. Escalation — Any ticket breaching its SLA is automatically escalated to the Political Administrator.
 
 ---------------------------------------------------
