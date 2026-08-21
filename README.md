@@ -68,6 +68,7 @@ Request Lifecycle
 4. Classification — The model returns a structured JSON object containing the department, priority tier, and sentiment signal. The result is cached in Redis for 24 hours.
 ---------------------------------------------------
 5. Auto-Assignment — The Smart Dispatcher calculates the nearest officer with the lowest active workload and assigns the ticket.
+---------------------------------------------------
 6. SLA Monitoring — A Spring Scheduler cron job continuously evaluates every open ticket against its deadline.
 7. Escalation — Any ticket breaching its SLA is automatically escalated to the Political Administrator.
 
