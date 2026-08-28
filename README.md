@@ -188,7 +188,7 @@ Return format:
 ```
 ---------------------------------------------------
 Sample Inference
-
+---------------------------------------------------
 Input:
 "The main road in Sector 7 has a huge pothole causing traffic and accidents."
 
