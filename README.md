@@ -94,7 +94,7 @@ Role-Based Access Control
 Three distinct access tiers are secured end-to-end with JWT authentication. Citizens can submit complaints, receive updates, and track resolution status. Officers can view their assigned workload, update ticket status, and upload resolution proof. Administrators get access to the full analytics dashboard, heatmaps, and officer performance reports.
 
 ---------------------------------------------------
-
+---------------------------------------------------
 Tech Stack
 ---------------------------------------------------
 Java 17 is the core application runtime. Spring Boot 3.2.x handles the REST API, dependency injection, and scheduling. MongoDB provides flexible document storage for grievances. Redis handles MD5-based response caching and rate limiting. Groq running Llama 3 8B delivers fast cloud NLP classification. Spring Security with JWT enforces authentication and RBAC. Maven manages dependencies and packaging, and Spring Scheduler powers SLA monitoring and escalation triggers.
