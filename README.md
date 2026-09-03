@@ -278,7 +278,7 @@ git checkout -b feature/your-feature-name
 git commit -m "feat: describe your change"
 git push origin feature/your-feature-name
 ```
-
+---------------------------------------------------
 ---------------------------------------------------
 
 License: MIT. See LICENSE for full details.
