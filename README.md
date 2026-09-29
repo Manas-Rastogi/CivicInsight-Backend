@@ -225,7 +225,7 @@ Step 1 — Clone the repository:
 git clone https://github.com/Manas-Rastogi/civic-insight-backend.git
 cd civic-insight-backend
 ```
-
+---------------------------------------------------
 Step 2 — Start Redis:
 
 ```bash
