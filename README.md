@@ -218,7 +218,7 @@ LOW — General feedback, suggestions, non-urgent requests — SLA: 7 days
 Installation
 
 Prerequisites: Java 17+, MongoDB (local or Atlas), Redis (local or managed), and a Groq API Key (free tier available at console.groq.com).
-
+---------------------------------------------------
 Step 1 — Clone the repository:
 
 ```bash
