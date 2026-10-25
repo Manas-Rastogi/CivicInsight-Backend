@@ -64,6 +64,7 @@ Request Lifecycle
   Complaint       cache lookup     (if cache miss)    Officer           + Escalation
 ```
 ---------------------------------------------------
+---------------------------------------------------
 1. Intake — Citizen submits a complaint with optional image attachment via the mobile or web portal.
 ---------------------------------------------------
 2. Cache Check — The backend computes an MD5 hash of the complaint text and checks Redis for a cached analysis result.
