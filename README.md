@@ -73,6 +73,7 @@ Request Lifecycle
 ___________________________________________________
 ---------------------------------------------------
 3. AI Inference — On a cache miss, the complaint text is forwarded to Groq's Llama 3 8B API for classification.
+___________________________________________________
 ---------------------------------------------------
 4. Classification — The model returns a structured JSON object containing the department, priority tier, and sentiment signal. The result is cached in Redis for 24 hours.
 ---------------------------------------------------
