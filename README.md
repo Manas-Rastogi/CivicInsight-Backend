@@ -70,6 +70,7 @@ Request Lifecycle
 ---------------------------------------------------
 ---------------------------------------------------
 2. Cache Check — The backend computes an MD5 hash of the complaint text and checks Redis for a cached analysis result.
+___________________________________________________
 ---------------------------------------------------
 3. AI Inference — On a cache miss, the complaint text is forwarded to Groq's Llama 3 8B API for classification.
 ---------------------------------------------------
