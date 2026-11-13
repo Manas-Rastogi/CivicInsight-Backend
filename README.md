@@ -81,6 +81,7 @@ ___________________________________________________
 ---------------------------------------------------
 6. SLA Monitoring — A Spring Scheduler cron job continuously evaluates every open ticket against its deadline.
 ---------------------------------------------------
+---------------------------------------------------
 7. Escalation — Any ticket breaching its SLA is automatically escalated to the Political Administrator.
 
 ---------------------------------------------------
